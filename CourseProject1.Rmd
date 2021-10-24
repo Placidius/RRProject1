@@ -1,0 +1,35 @@
+---
+title: "Activity Monitoring"
+output: html_document
+---
+## Analysis of Steps per Day
+
+### Libraries included
+readr for importing data set
+ggplot2 for displaying graphs
+
+```{r}
+library(readr)
+library(ggplot2)
+```
+
+### Importing the data set
+```{r}
+
+```
+
+### Cleaning out the NA's
+```{r}
+
+```
+
+### Histogram of the steps.
+```{r}
+
+```
+
+### Mean and median steps per day
+```{r}
+
+```
+
