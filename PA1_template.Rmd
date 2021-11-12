@@ -5,31 +5,68 @@ output: html_document
 ## Analysis of Steps per Day
 
 ### Libraries included
-readr for importing data set
-ggplot2 for displaying graphs
+*readr* for importing data set
+*dplyr* for pipe and filter
+*ggplot2* for time series graph
 
 ```{r}
 library(readr)
+library(dplyr)
 library(ggplot2)
 ```
+### The data set
+This data set has data for the steps taken over the dates from October 1 
+2012 to November 11 2012. The data is first imported, then filtered to remove
+any entries that have NA as the number of steps. There seems to be no reason to 
+believe we can impute likely values for NA, so it's best just to exclude them.
 
 ### Importing the data set
 ```{r}
-
+rawdata <- read.csv("activity.csv")
 ```
 
 ### Cleaning out the NA's
 ```{r}
+cleandata <- rawdata %>% 
+  filter(!is.na(steps))
+```
 
+### Addtional alteration
+The original dataset contains thousands of records that represent the number of
+steps in five minute intervals. The assignment calls for the average number of 
+steps per DAY. Therefore the data will need to be grouped by date. Since later
+parts of the assignment also call for the day of the week, we will also add
+a column for weekday in this step.
+
+```{r}
+cleandata <- cleandata %>% 
+  group_by(date) %>% 
+  summarize(steps=sum(steps)) %>% 
+  mutate(weekday = weekdays(as.Date(date)))
 ```
 
 ### Histogram of the steps.
+A histogram reveals the spread of the number of steps by day.
 ```{r}
-
+hist(cleandata$steps)
 ```
 
-### Mean and median steps per day
+### Mean steps per day
 ```{r}
+mean(cleandata$steps)
+```
 
+### Median steps per day
+```{r}
+median(cleandata$steps)
+```
+
+### Time series plot of average steps taken.
+```{r}
+timeplot <- ggplot (data=cleandata) +
+  aes (x=date, y=steps) +
+  geom_point()
+
+timeplot
 ```
 
